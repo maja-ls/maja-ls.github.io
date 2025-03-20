@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Height debugger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        main {
+            background: linear-gradient(to bottom, #007bff, #28a745);
+        }
+        table, thead, tbody {
+            width: 100%;
+        }
+        th, td {
+            width: 50%;
+            padding: 2px 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <main style="min-height: 3000px;" role="main">
+        <!-- add a blue -> green gradient on main -->
+
+
+
+        <div
+            style="position: fixed; top: 20px; left: 20px; background: rgba(255,255,255,0.7); padding: 10px; z-index: 9999;">
+            <h1>Height debugger</h1>
+            <p>Scroll down and resize the window to see the values change.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Height</th>
+                        <th>Width</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="windowHeight"></td>
+                        <td id="windowWidth"></td>
+                    </tr>
+                    <tr>
+                        <td id="clientHeight"></td>
+                        <td id="clientWidth"></td>
+                    </tr>
+                    <tr>
+                        <td id="innerHeight"></td>
+                        <td id="innerWidth"></td>
+                    </tr>
+                    <tr>
+                        <td id="documentHeight"></td>
+                        <td id="documentWidth"></td>
+                    </tr>
+                    <tr>
+                        <td id="scrollHeight"></td>
+                        <td id="scrollWidth"></td>
+                    </tr>
+                    <tr>
+                        <td id="scrollTop"></td>
+                        <td id="scrollLeft"></td>
+                    </tr>
+                    <tr>
+                        <td id="scrollY"></td>
+                        <td id="scrollX"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- 
+            <div id="windowHeight"></div>
+            <div id="clientHeight"></div>
+            <div id="innerHeight"></div>
+            <div id="documentHeight"></div>
+            <div id="scrollHeight"></div>
+            <div id="scrollTop"></div>
+            <div id="scrollY"></div>
+            <div id="windowWidth"></div>
+            <div id="clientWidth"></div>
+            <div id="innerWidth"></div>
+            <div id="documentWidth"></div> -->
+
+
+
+        </div>
+    </main>
+
+    <script>
+        calculate = () => {
+
+            const windowHeight = document.getElementById('windowHeight');
+            const clientHeight = document.getElementById('clientHeight');
+            const documentHeight = document.getElementById('documentHeight');
+            const scrollHeight = document.getElementById('scrollHeight');
+            const scrollTop = document.getElementById('scrollTop');
+            const scrollY = document.getElementById('scrollY');
+            const innerHeight = document.getElementById('innerHeight');
+            const windowWidth = document.getElementById('windowWidth');
+            const clientWidth = document.getElementById('clientWidth');
+            const documentWidth = document.getElementById('documentWidth');
+            const scrollWidth = document.getElementById('scrollWidth');
+            const scrollLeft = document.getElementById('scrollLeft');
+            const scrollX = document.getElementById('scrollX');
+            const innerWidth = document.getElementById('innerWidth');
+
+            windowHeight.innerHTML = 'Window height: ' + window.innerHeight + 'px';
+            clientHeight.innerHTML = 'Client height: ' + document.documentElement.clientHeight + 'px';
+            documentHeight.innerHTML = 'Document height: ' + document.documentElement.scrollHeight + 'px';
+            scrollHeight.innerHTML = 'Scroll height: ' + document.documentElement.scrollHeight + 'px';
+            scrollTop.innerHTML = 'Scroll top: ' + document.documentElement.scrollTop + 'px';
+            scrollY.innerHTML = 'Scroll Y: ' + window.scrollY + 'px';
+            innerHeight.innerHTML = 'Inner height: ' + window.innerHeight + 'px';
+            windowWidth.innerHTML = 'Window width: ' + window.innerWidth + 'px';
+            clientWidth.innerHTML = 'Client width: ' + document.documentElement.clientWidth + 'px';
+            documentWidth.innerHTML = 'Document width: ' + document.documentElement.scrollWidth + 'px';
+            scrollWidth.innerHTML = 'Scroll width: ' + document.documentElement.scrollWidth + 'px';
+            scrollLeft.innerHTML = 'Scroll left: ' + document.documentElement.scrollLeft + 'px';
+            scrollX.innerHTML = 'Scroll X: ' + window.scrollX + 'px';
+            innerWidth.innerHTML = 'Inner width: ' + window.innerWidth + 'px';
+
+        }
+
+        window.addEventListener('scroll', calculate);
+        window.addEventListener('resize', calculate);
+        window.addEventListener('touchstart', calculate);
+        window.addEventListener('touchmove', calculate);
+        window.addEventListener('touchend', calculate);
+        window.addEventListener('touchcancel', calculate);
+        window.addEventListener('touchleave', calculate);
+
+        calculate();
+    </script>
+</body>
+
+</html>
