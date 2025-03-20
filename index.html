@@ -31,6 +31,30 @@
             padding: 2px 4px;
             text-align: left;
         }
+        #centered-content {
+                position: fixed; 
+                top: 50%; 
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+                background: rgba(0,0,0,1); 
+                z-index: 2;
+
+                height: 4rem;
+                width: 4rem;
+            }
+            .diag {
+                position: absolute;
+                background: #fff;
+                width: 100%; 
+                height: 1px;
+                top: 50%;
+            }
+            .updown {
+                transform: translateY(-50%) rotate(45deg);
+            }
+            .downup {
+                transform: translateY(-50%) rotate(-45deg);
+            }
     </style>
 </head>
 
@@ -89,37 +113,17 @@
                         <td><button onclick="decreaseHeight()">Decrease height -</button></td>
                         <td><button onclick="decreaseWidth()">Decrease width -</button></td>
                     </tr>
+                    <tr>
+                        <td colspan="2" id="lineoffset"></td>
+                    </tr>
+                    <tr>
+                        <td ><button onclick="center()">Center intoview</button></td>
+                        <td ><button onclick="center()">Center scrollto</button></td>
+                    </tr>
 
                 </tbody>
             </table>
         </div>
-
-        <style>
-            #centered-content {
-                position: fixed; 
-                top: 50%; 
-                left: 50%; 
-                transform: translate(-50%, -50%); 
-                background: rgba(0,0,0,1); 
-                z-index: 2;
-
-                height: 4rem;
-                width: 4rem;
-            }
-            .diag {
-                position: absolute;
-                background: #fff;
-                width: 100%; 
-                height: 1px;
-                top: 50%;
-            }
-            .updown {
-                transform: translateY(-50%) rotate(45deg);
-            }
-            .downup {
-                transform: translateY(-50%) rotate(-45deg);
-            }
-        </style>
         <div id="centered-content">
            <div id="diagonal-updown" class="diag updown"></div>
            <div id="diagonal-downup"  class="diag downup"></div>
@@ -128,7 +132,6 @@
         <div id="container" style="width: 100%; display: flex; align-items: center; justify-content: center;">
             <div id="line" style="width: 80dvw; height: 1px; background-color: #fff; position: relative; z-index: 100;"></div>
         </div>
-        <button style="position: fixed; bottom: 10px; right: 10px;" onclick="center()">Center line</button>
     </main>
 
     <script>
@@ -169,11 +172,17 @@ let targetWidth = defaultWidth;
             scrollX.innerHTML = 'Scroll X: ' + returnMaxTwoDecimals(window.scrollX) + 'px';
             innerWidth.innerHTML = 'Inner width: ' + window.innerWidth + 'px';
 
+            document.getElementById('lineoffset').innerHTML = 'Line offset: ' + document.getElementById('line').offsetTop + 'px';
         }
 
         center = () => {
             const line = document.getElementById('line');
             line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        centerCustom = () => {
+            const line = document.getElementById('line');
+            calculateElementOffsetAndScrollTo(line);
         }
 
         increaseHeight = () => {
@@ -198,14 +207,21 @@ let targetWidth = defaultWidth;
             document.querySelector('main').style.minHeight = height + 'px';
             document.getElementById('currentHeight').innerHTML = 'Current height: ' + height + 'px';
             document.getElementById('container').style.height = height + 'px';
+            calculate();
         }
         setWidth = (width) => {
             document.querySelector('main').style.width = width + '%';
             document.getElementById('currentWidth').innerHTML = 'Current width: ' + width + '%';
+            calculate();
         }
 
         returnMaxTwoDecimals = (number) => {
             return Math.round(number * 100) / 100;
+        }
+
+        calculateElementOffsetAndScrollTo = (element) => {
+            const offset = element.offsetTop;
+            window.scrollTo(0, offset);
         }
 
         window.addEventListener('scroll', calculate);
