@@ -7,6 +7,8 @@
     <title>Height debugger</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             font-size: 12px;
             color: #333;
@@ -33,10 +35,6 @@
 
 <body>
     <main style="min-height: 3000px;" role="main">
-        <!-- add a blue -> green gradient on main -->
-
-
-
         <div
             style="position: fixed; top: 20px; left: 20px; background: rgba(255,255,255,0.7); padding: 10px; z-index: 9999;">
             <h1>Height debugger</h1>
@@ -79,29 +77,30 @@
                         <td id="scrollY"></td>
                         <td id="scrollX"></td>
                     </tr>
+                    <tr>
+                        <td id="currentHeight"></td>
+                        <td id="currentWidth"></td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="increaseHeight()">Increase height +</button></td>
+                        <td><button onclick="increaseWidth()">Increase width +</button></td>
+                    </tr>
+                    <tr>
+                        <td><button onclick="decreaseHeight()">Decrease height -</button></td>
+                        <td><button onclick="decreaseWidth()">Decrease width -</button></td>
+                    </tr>
 
                 </tbody>
             </table>
-
-            <!-- 
-            <div id="windowHeight"></div>
-            <div id="clientHeight"></div>
-            <div id="innerHeight"></div>
-            <div id="documentHeight"></div>
-            <div id="scrollHeight"></div>
-            <div id="scrollTop"></div>
-            <div id="scrollY"></div>
-            <div id="windowWidth"></div>
-            <div id="clientWidth"></div>
-            <div id="innerWidth"></div>
-            <div id="documentWidth"></div> -->
-
-
-
         </div>
     </main>
 
     <script>
+const defaultHeight = 3000; // px
+const defaultWidth = 100; // dvw
+let targetHeight = defaultHeight;
+let targetWidth = defaultWidth;
+
         calculate = () => {
 
             const windowHeight = document.getElementById('windowHeight');
@@ -123,17 +122,48 @@
             clientHeight.innerHTML = 'Client height: ' + document.documentElement.clientHeight + 'px';
             documentHeight.innerHTML = 'Document height: ' + document.documentElement.scrollHeight + 'px';
             scrollHeight.innerHTML = 'Scroll height: ' + document.documentElement.scrollHeight + 'px';
-            scrollTop.innerHTML = 'Scroll top: ' + document.documentElement.scrollTop + 'px';
-            scrollY.innerHTML = 'Scroll Y: ' + window.scrollY + 'px';
+            scrollTop.innerHTML = 'Scroll top: ' + returnMaxTwoDecimals(document.documentElement.scrollTop) + 'px';
+            scrollY.innerHTML = 'Scroll Y: ' + returnMaxTwoDecimals(window.scrollY) + 'px';
             innerHeight.innerHTML = 'Inner height: ' + window.innerHeight + 'px';
             windowWidth.innerHTML = 'Window width: ' + window.innerWidth + 'px';
             clientWidth.innerHTML = 'Client width: ' + document.documentElement.clientWidth + 'px';
             documentWidth.innerHTML = 'Document width: ' + document.documentElement.scrollWidth + 'px';
             scrollWidth.innerHTML = 'Scroll width: ' + document.documentElement.scrollWidth + 'px';
-            scrollLeft.innerHTML = 'Scroll left: ' + document.documentElement.scrollLeft + 'px';
-            scrollX.innerHTML = 'Scroll X: ' + window.scrollX + 'px';
+            scrollLeft.innerHTML = 'Scroll left: ' + returnMaxTwoDecimals(document.documentElement.scrollLeft) + 'px';
+            scrollX.innerHTML = 'Scroll X: ' + returnMaxTwoDecimals(window.scrollX) + 'px';
             innerWidth.innerHTML = 'Inner width: ' + window.innerWidth + 'px';
 
+        }
+
+        increaseHeight = () => {
+            targetHeight += 500;
+            setHeight(targetHeight);
+
+        }
+        decreaseHeight = () => {
+            targetHeight -= 500;
+            setHeight(targetHeight);
+        }
+        increaseWidth = () => {
+            targetWidth += 10;
+            setWidth(targetWidth);
+
+        }
+        decreaseWidth = () => {
+            targetWidth -= 10;
+            setWidth(targetWidth);
+        }
+        setHeight = (height) => {
+            document.querySelector('main').style.minHeight = height + 'px';
+            document.getElementById('currentHeight').innerHTML = 'Current height: ' + height + 'px';
+        }
+        setWidth = (width) => {
+            document.querySelector('main').style.width = width + '%';
+            document.getElementById('currentWidth').innerHTML = 'Current width: ' + width + '%';
+        }
+
+        returnMaxTwoDecimals = (number) => {
+            return Math.round(number * 100) / 100;
         }
 
         window.addEventListener('scroll', calculate);
@@ -144,6 +174,8 @@
         window.addEventListener('touchcancel', calculate);
         window.addEventListener('touchleave', calculate);
 
+        setHeight(defaultHeight);
+        setWidth(defaultWidth);
         calculate();
     </script>
 </body>
