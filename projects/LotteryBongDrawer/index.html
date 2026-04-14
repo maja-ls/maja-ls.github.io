@@ -1,0 +1,107 @@
+<html lang="no-NB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min loddtrekker</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="scripts/index.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Velkommen til min loddtrekker!</h1>
+        <p>Denne siden lar deg trekke lodd tilfeldig.</p>
+
+    </header>
+    <main id="main">
+        <section class="pane lottery-settings-container">
+            <h2>Oppsett</h2>
+            <form id="form">
+
+                <div class="container structure-container">
+                    <div class="field-container">
+                        <label for="total-prefixes">Antall prefix i tillegg til nummerserie:</label>
+                        <input type="number" id="total-prefixes" required min="0" value="0"
+                            onchange="onTotalPrefixesChange()">
+                            <div class="help-icon">
+                                ?
+                                <span>Et prefiks er en bokstav eller en kombinasjon av bokstaver som legges foran et nummer for å lage en unik identifikator. F.eks. A, B, C.</span>
+                            </div>
+                    </div>
+
+                    <div class="field-container">
+                        <label for="amount-of-series">Antall loddbøker:</label>
+                        <input type="number" id="amount-of-series" required min="1" value="1"
+                            onchange="onSeriesAmountChange()">
+                    </div>
+                </div>
+                <div class="container prefix-definitions-container" id="prefix-definitions-container">
+                    <h3>Prefix Definisjoner</h3>
+                    <div class="prefix-definition template" hidden>
+                        <label for="prefix-name-template">Prefix navn:</label>
+                        <input type="text" class="prefix-name" id="prefix-name-template" value=""
+                            onchange="onPrefixNameChange()">
+                              <div class="help-icon">
+                                ?
+                                <span>F.eks 'Farge', eller 'Bokstav'</span>
+                            </div>
+                    </div>
+                </div>
+                <div class="container series-container" id="series-container">
+                    <div class="series template">
+                        <h3>Loddbok 1</h3>
+                        <div class="prefixes-container">
+                            <div class="series-prefix field-container template" hidden>
+                                <label for="series-1-prefix-template">PrefixNavn</label>
+                                <input type="text" id="series-1-prefix-template" value="">
+
+                            </div>
+                        </div>
+                        <div class="field-container">
+                            <label for="series-1-start-1">Start nummer:</label>
+                            <input type="number" class="series-start" required id="series-1-start-1" min="0" value="1">
+                        </div>
+                        <div class="field-container">
+                            <label for="series-1-end-1">Slutt nummer:</label>
+                            <input type="number" class="series-end" required id="series-1-end-1" min="0" value="1">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+
+                    <div class="field-container">
+                        <label for="draw-amount">Antall lodd å trekke:</label>
+                        <input type="number" id="draw-amount" required min="1" value="1">
+                    </div>
+                    <div class="field-container" style="margin-top: 20px;">
+                        <input type="submit" value="Kjør trekning">
+                        <button type="button" onclick="onReset()">Nullstill</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="pane lottery-results-wrapper">
+            <h2>Resultater</h2>
+            <div class="container">
+                <table class="lottery-results-table" id="lottery-results-table" style="font-family: monospace;" hidden>
+                    <thead>
+                        <tr>
+                            <th>Plassering</th>
+                            <th>Loddnummer</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lottery-results-tbody">
+                        <!-- Vinnerresultater vil bli lagt til her dynamisk -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 maja-ls</p>
+    </footer>
+</body>
+
+</html>

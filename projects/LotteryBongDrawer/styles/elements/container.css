@@ -1,0 +1,19 @@
+.container {
+    padding: 0.6rem;
+
+    h1,
+    h2,
+    h3 {
+        width: 100%;
+    }
+}
+
+.prefix-definitions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &:not(:has(.prefix-definition:not([hidden]))) {
+        display: none;
+    }
+}

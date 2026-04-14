@@ -1,0 +1,26 @@
+.field-container {
+    margin-block: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    min-width: 500px;
+}
+
+input[type="number"], input[type="text"] {
+    border: 1px solid hsl(0, 0%, 80%);
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+}
+
+label + input {
+    margin-left: 0.5rem;
+}
+
+input + .help-icon {
+    margin-left: 0.5rem;
+}
+
+.leading-zero{
+    opacity: 0.3;
+}

@@ -1,0 +1,12 @@
+input[type="submit"], button {
+    background-color: hsl(220, 90%, 56%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    &:hover, &:active {
+        background-color: hsl(220, 90%, 46%);
+    }
+}
