@@ -47,7 +47,7 @@ label+input,input+.help-icon {
         position: relative;
 
         input {
-            width: calc(100% - calc(24px + 0.5rem));
+            width: calc(100% - calc(30px + 0.5rem)); /* space for help icon */
             height: 40px;
         }
         .help-icon {
