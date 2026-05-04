@@ -1,9 +1,14 @@
 // translations.js
 // All language strings for the LotteryBongDrawer app
 
+// const SUPPORTED_LANGUAGES = [
+//   'nb', 'sv', 'da', 'fi', 'is', // Nordics
+//   'en', 'de', 'fr', 'es', 'uk' // Big languages
+// ];
+
+// alphabetical order by language name
 const SUPPORTED_LANGUAGES = [
-  'nb', 'sv', 'da', 'fi', 'is', // Nordics
-  'en', 'de', 'fr', 'es', 'uk' // Big languages
+  'da', 'de', 'en', 'es',  'fr', 'is', 'nb', 'fi', 'sv', 'uk'
 ];
 
 const translations = {

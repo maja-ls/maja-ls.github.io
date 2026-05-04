@@ -36,8 +36,8 @@ function populateLanguageDropdown(selectedLang) {
     SUPPORTED_LANGUAGES.forEach(code => {
         const option = document.createElement('option');
         option.value = code;
-        // Show (code) and language name, e.g. (nb) Loddtrekker
-        option.textContent = `(${code}) ${translations[code]?.title || code}`;
+        // Show language name, e.g. Norsk, English, etc. Fallback to code if name not available
+        option.textContent = `${translations[code]?.languageName || code}`;
         if (code === selectedLang) option.selected = true;
         select.appendChild(option);
     });
