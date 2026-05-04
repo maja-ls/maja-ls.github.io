@@ -6,91 +6,98 @@
     <title>Loddtrekker</title>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="styles/index.css">
+    <script src="scripts/translations.js" defer></script>
     <script src="scripts/index.js" defer></script>
 </head>
 
 <body>
     <header>
-        <h1>Loddtrekker</h1>
-        <p>Denne siden lar deg trekke lodd tilfeldig, ved bruk av fisher-yates algoritmen.</p>
-
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1em; padding-inline: 1rem;">
+            <div>
+                <h1 data-i18n="title">Loddtrekker</h1>
+                <p data-i18n="description">Denne siden lar deg trekke lodd tilfeldig, ved bruk av fisher-yates algoritmen.</p>
+            </div>
+            <div>
+                <label for="language-select" style="font-size: 0.95em;">🌐
+                    <select id="language-select" style="margin-left: 0.5em;"></select>
+                </label>
+            </div>
+        </div>
     </header>
     <main id="main">
         <section class="pane lottery-settings-container">
-            <h2>Oppsett</h2>
+            <h2 data-i18n="setup">Oppsett</h2>
             <form id="form">
 
                 <div class="container structure-container">
                     <div class="field-container">
-                        <label for="total-prefixes">Antall prefix i tillegg til nummerserie:</label>
+                        <label for="total-prefixes" data-i18n="totalPrefixes">Antall prefix i tillegg til nummerserie:</label>
                         <input type="number" id="total-prefixes" required min="0" value="0"
                             onchange="onTotalPrefixesChange()">
                             <div class="help-icon">
                                 ?
-                                <span>Et prefiks er en bokstav eller en kombinasjon av bokstaver som legges foran et nummer for å lage en unik identifikator. F.eks. A, B, C.</span>
+                                <span data-i18n="totalPrefixesHelp">Et prefiks er en bokstav eller en kombinasjon av bokstaver som legges foran et nummer for å lage en unik identifikator. F.eks. A, B, C.</span>
                             </div>
                     </div>
 
                     <div class="field-container">
-                        <label for="amount-of-series">Antall loddbøker:</label>
+                        <label for="amount-of-series" data-i18n="amountOfSeries">Antall loddbøker:</label>
                         <input type="number" id="amount-of-series" required min="1" value="1"
                             onchange="onSeriesAmountChange()">
                     </div>
                 </div>
                 <div class="container prefix-definitions-container" id="prefix-definitions-container">
-                    <h3>Prefix Definisjoner</h3>
+                    <h3 data-i18n="prefixDefinitions">Prefix Definisjoner</h3>
                     <div class="prefix-definition template" hidden>
-                        <label for="prefix-name-template">Prefix navn:</label>
+                        <label for="prefix-name-template" data-i18n="prefixName">Prefix navn:</label>
                         <input type="text" class="prefix-name" id="prefix-name-template" value=""
                             onchange="onPrefixNameChange()">
                               <div class="help-icon">
                                 ?
-                                <span>F.eks 'Farge', eller 'Bokstav'</span>
+                                <span data-i18n="prefixNameHelp">F.eks 'Farge', eller 'Bokstav'</span>
                             </div>
                     </div>
                 </div>
                 <div class="container series-container" id="series-container">
                     <div class="series template">
-                        <h3>Loddbok 1</h3>
+                        <h3 data-i18n="seriesBook">Loddbok 1</h3>
                         <div class="prefixes-container">
                             <div class="series-prefix field-container template" hidden>
-                                <label for="series-1-prefix-template">PrefixNavn</label>
+                                <label for="series-1-prefix-template" data-i18n="prefixNavn">PrefixNavn</label>
                                 <input type="text" id="series-1-prefix-template" value="">
-
                             </div>
                         </div>
                         <div class="field-container">
-                            <label for="series-1-start-1">Start nummer:</label>
+                            <label for="series-1-start-1" data-i18n="startNumber">Start nummer:</label>
                             <input type="number" class="series-start" required id="series-1-start-1" min="0" value="1">
                         </div>
                         <div class="field-container">
-                            <label for="series-1-end-1">Slutt nummer:</label>
+                            <label for="series-1-end-1" data-i18n="endNumber">Slutt nummer:</label>
                             <input type="number" class="series-end" required id="series-1-end-1" min="0" value="1">
-
                         </div>
                     </div>
                 </div>
                 <div class="container">
 
                     <div class="field-container">
-                        <label for="draw-amount">Antall lodd å trekke:</label>
+                        <label for="draw-amount" data-i18n="drawAmount">Antall lodd å trekke:</label>
                         <input type="number" id="draw-amount" required min="1" value="1">
                     </div>
                     <div class="field-container" style="margin-top: 20px;">
-                        <input type="submit" value="Kjør trekning">
-                        <button type="button" onclick="onReset()">Nullstill</button>
+                        <input type="submit" data-i18n-value="runDraw" value="Kjør trekning">
+                        <button type="button" onclick="onReset()" data-i18n="reset">Nullstill</button>
                     </div>
                 </div>
             </form>
         </section>
         <section class="pane lottery-results-wrapper">
-            <h2>Resultater</h2>
+            <h2 data-i18n="results">Resultater</h2>
             <div class="container">
                 <table class="lottery-results-table" id="lottery-results-table" style="font-family: monospace;" hidden>
                     <thead>
                         <tr>
-                            <th>Plassering</th>
-                            <th id="lottery-number-th">Loddnummer</th>
+                            <th data-i18n="placement">Plassering</th>
+                            <th id="lottery-number-th" data-i18n="lotteryNumber">Loddnummer</th>
                         </tr>
                     </thead>
                     <tbody id="lottery-results-tbody">

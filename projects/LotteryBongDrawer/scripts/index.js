@@ -1,3 +1,73 @@
+// Helper to get current language translations
+function t() {
+    const lang = localStorage.getItem('lottery-lang') || 'nb';
+    return window.LotteryTranslations?.translations?.[lang] || {};
+}
+// --- Language/i18n logic ---
+function setLanguage(lang) {
+    const { translations } = window.LotteryTranslations;
+    const t = translations[lang] || translations['nb'];
+    // Update all elements with data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+            el.innerHTML = t[key];
+        }
+    });
+    // Update all elements with data-i18n-value (for input/button values)
+    document.querySelectorAll('[data-i18n-value]').forEach(el => {
+        const key = el.getAttribute('data-i18n-value');
+        if (t[key]) {
+            el.value = t[key];
+        }
+    });
+    // Update document title
+    if (t.title) document.title = t.title;
+    // Update <html> lang attribute
+    document.documentElement.lang = lang;
+    // Save to localStorage
+    localStorage.setItem('lottery-lang', lang);
+}
+
+function populateLanguageDropdown(selectedLang) {
+    const { SUPPORTED_LANGUAGES, translations } = window.LotteryTranslations;
+    const select = document.getElementById('language-select');
+    select.innerHTML = '';
+    SUPPORTED_LANGUAGES.forEach(code => {
+        const option = document.createElement('option');
+        option.value = code;
+        // Show (code) and language name, e.g. (nb) Loddtrekker
+        option.textContent = `(${code}) ${translations[code]?.title || code}`;
+        if (code === selectedLang) option.selected = true;
+        select.appendChild(option);
+    });
+}
+
+
+function initLanguage() {
+    const { getBestLanguage, translations } = window.LotteryTranslations;
+    let lang = localStorage.getItem('lottery-lang');
+    if (!lang) {
+        lang = getBestLanguage();
+    }
+    setLanguage(lang || 'nb');
+    populateLanguageDropdown(lang || 'nb');
+    // Listen for dropdown changes
+    const select = document.getElementById('language-select');
+    select.addEventListener('change', (e) => {
+        setLanguage(e.target.value);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.LotteryTranslations) {
+        initLanguage();
+    }
+});
+
+// --- END Language/i18n logic ---
+
+
 const getCurrentPrefixNames = () => {
     const prefixInputs = Array.from(document.querySelectorAll(".prefix-definition:not(.template) .prefix-name"));
 
@@ -143,8 +213,15 @@ const onPrefixNameChange = () => {
 
 const onFormSubmit = (event) => {
     event.preventDefault();
+    const resultsTable = document.getElementById("lottery-results-table");
+    // If results are already visible, confirm before drawing again
+    if (!resultsTable.hidden) {
+        const msg = t().confirmNewDraw || "Du har allerede trukket tall. Vil du trekke på nytt?";
+        if (!confirm(msg)) return;
+    }
     processLotteryDraw();
 };
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -271,16 +348,18 @@ const shuffle = (array) => {
 }
 
 const onReset = () => {
-    if (confirm("Er du sikker på at du vil tilbakestille alt?")) {
-        // go to the url without any query parameters to reset the form
-        window.location.href = window.location.pathname;
+    const msg = t().confirmReset || "Er du sikker på at du vil tilbakestille alt?";
+    if (confirm(msg)) {
+       // go to the url without any query parameters to reset the form
+       window.location.href = window.location.pathname;
     }
 };
 
 
 // if user tries to refresh the page, show a confirmation dialog to prevent accidental refresh
 window.addEventListener("beforeunload", (event) => {
+    const msg = t().confirmRefresh || "Er du sikker på at du vil forlate siden? Endringer kan gå tapt.";
     event.preventDefault();
-    event.returnValue = "";
+    event.returnValue = msg;
 });
 
