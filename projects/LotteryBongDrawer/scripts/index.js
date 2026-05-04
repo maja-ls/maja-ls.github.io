@@ -128,7 +128,7 @@ const updateAllSeries = () => {
             if (!prefixName) {
                 prefixName = `<span style="color: red;">Prefix trenger navn</span>`;
                 label.innerHTML = prefixName;
-            } else{
+            } else {
                 label.textContent = prefixName;
             }
         });
@@ -169,10 +169,11 @@ const processLotteryDraw = () => {
     // determine how many digits in the highest number
     const highestNumberDigits = highestNumber.toString().length;
 
-
+    let amountOfPrefixes = 0;
     allSeries.forEach((series, index) => {
         const prefixElements = series.querySelectorAll(".series-prefix:not(.template) input");
         const prefixes = Array.from(prefixElements).map(input => input.value);
+        amountOfPrefixes = Math.max(amountOfPrefixes, prefixes.length);
         const startInput = series.querySelector(".series-start");
         const endInput = series.querySelector(".series-end");
         const startNumber = parseInt(startInput.value, 10);
@@ -203,27 +204,52 @@ const processLotteryDraw = () => {
 
     winners.forEach((winner, index) => {
         const row = document.createElement("tr");
+        // Index cell
         const cellIndex = document.createElement("td");
         cellIndex.textContent = (index + 1).toString();
-        const cellWinner = document.createElement("td");
-        winner = getWinnerHtml(winner);
-        cellWinner.innerHTML = winner;
         row.appendChild(cellIndex);
-        row.appendChild(cellWinner);
+
+        // Split winner into parts: prefixes (variable), number (always last)
+        // Use regex to match: (prefixes) (number with possible leading zeros)
+        // Example: "Red A 1091" or "Turquoise G 003"
+        // We'll split by space, but the last part is always the number
+        const parts = winner.trim().split(/\s+/);
+        const numberPart = parts.pop();
+        const prefixParts = parts;
+
+        // Add prefix columns (variable count)
+        prefixParts.forEach(prefix => {
+            const td = document.createElement("td");
+            td.textContent = prefix;
+            row.appendChild(td);
+        });
+
+        // Add number column, using getWinnerHtml for leading zero styling
+        const tdNumber = document.createElement("td");
+        tdNumber.innerHTML = getWinnerNumberHtml(numberPart);
+        row.appendChild(tdNumber);
+
         resultsTableBody.appendChild(row);
+
+
     });
-    
-    
+
+    // update "Loddtrekning" thead colspan to match the number of columns per lodd
+    const lotteryNumberTh = document.getElementById("lottery-number-th");
+    lotteryNumberTh.setAttribute("colspan", (amountOfPrefixes + 1).toString());
+
+
     console.log("Lottery data prepared:", lotteryData);
     console.log("Shuffled lottery data:", shuffledLotteryData);
     console.log("Number of winners to select:", numberOfWinners);
-    console.log("Winners selected:", winners);
+    console.log("Winners selected:");
+    console.table(winners);
     console.log("Trekning gjennomført!");
 
 };
 
 
-const getWinnerHtml = (winner) => {
+const getWinnerNumberHtml = (winner) => {
     // the last set of characters in winner are numbers. if the number begins with 0, all zeros should be wrapped in a span with class "leading-zero" to style them differently
     const match = winner.match(/(\D*)(0*)(\d+)$/);
     if (!match) return winner; // if no match, return the original string
@@ -246,8 +272,8 @@ const shuffle = (array) => {
 
 const onReset = () => {
     if (confirm("Er du sikker på at du vil tilbakestille alt?")) {
-       // go to the url without any query parameters to reset the form
-       window.location.href = window.location.pathname;
+        // go to the url without any query parameters to reset the form
+        window.location.href = window.location.pathname;
     }
 };
 
