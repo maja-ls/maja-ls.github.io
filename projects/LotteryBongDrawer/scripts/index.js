@@ -1,4 +1,3 @@
-
 const getCurrentPrefixNames = () => {
     const prefixInputs = Array.from(document.querySelectorAll(".prefix-definition:not(.template) .prefix-name"));
 
@@ -251,3 +250,11 @@ const onReset = () => {
        window.location.href = window.location.pathname;
     }
 };
+
+
+// if user tries to refresh the page, show a confirmation dialog to prevent accidental refresh
+window.addEventListener("beforeunload", (event) => {
+    event.preventDefault();
+    event.returnValue = "";
+});
+
