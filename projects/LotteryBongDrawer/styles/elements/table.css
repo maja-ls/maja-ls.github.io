@@ -3,3 +3,15 @@ th, td {
     padding: 0.5rem 1rem;
     text-align: center;
 }
+
+#lottery-results-tbody{
+    td {
+        border-inline: none;
+    }
+    td:first-child {
+            border-inline: 1px solid hsl(0, 0%, 80%);
+    }
+     td:last-child {
+            border-right: 1px solid hsl(0, 0%, 80%);
+    }
+}
